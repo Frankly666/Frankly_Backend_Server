@@ -36,11 +36,13 @@ async function vertifyLogin(ctx, next) {
 
 // 验证用户是否拥有token或者判断用户的token是否过期
 async function vertifyAuth(ctx, next) {
+  // 获取客户端传过来的token
   const authorization = ctx.headers.authorization;
   if(!authorization) {
     return ctx.app.emit("error", NO_AUTHORITY, ctx);    
   }
 
+  // 处理token数据
   const token = authorization.replace("Bearer ", "");
 
   try{
@@ -52,6 +54,7 @@ async function vertifyAuth(ctx, next) {
     console.log("toke对比结果:",err);
     return ctx.app.emit("error", NO_AUTHORITY, ctx);
   }
+
 
   await next();
 }

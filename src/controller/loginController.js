@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { PRIVATE_KEY } = require("../config/key");
+const { TOKEN_IS_WRONG } = require("../config/error");
 
 class loginController {
   login(ctx, next) {
@@ -14,8 +15,7 @@ class loginController {
       });
       ctx.body = {code: 0, data:{id, name, token}};
     } catch (error) {
-      console.error('Error signing JWT:', error);
-      return ctx.app.emit("error", )
+      return ctx.app.emit("error", TOKEN_IS_WRONG, ctx)
     }
   }
 

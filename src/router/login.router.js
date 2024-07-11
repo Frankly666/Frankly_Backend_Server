@@ -10,7 +10,5 @@ const loginRouter = new koaRouter({
 loginRouter.post("/", vertifyLogin, login);
 loginRouter.post("/test",vertifyAuth, test)
 
-module.exports = {
-  loginRouter
-}
+module.exports =  loginRouter
 
