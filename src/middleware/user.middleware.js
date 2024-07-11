@@ -30,24 +30,10 @@ async function encryptPassword(ctx, next) {
   await next();
 }
 
-// 向数据库中插入数据
-async function handleUsers(ctx, next) {
-  const user = ctx.request.body;
-  console.log('user: ', user);
-
-
-  const res = await userSevice.addUser(user);
-
-  ctx.body = {
-    message: '创建用户成功~',
-    data: res
-  }
-}
 
 
 
 module.exports = {
   vertifyUser,
-  encryptPassword,
-  handleUsers
+  encryptPassword
 }
