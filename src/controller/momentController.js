@@ -1,5 +1,4 @@
-const { MOMENT_IS_NOT_ALLOWD_EMPTY } = require("../config/error");
-const { insertContent } = require("../dbService/moment.service");
+const { insertContent, searchAllContent, serchDetaiContent } = require("../dbService/moment.service");
 
 class momentController {
   async insertMoment(ctx, next) {
@@ -10,6 +9,24 @@ class momentController {
       data: {
         res
       }
+    }
+  }
+
+  async searchAllMoment(ctx, next) {
+    const res = await searchAllContent()
+    ctx.body = {
+      code: 0,
+      data: res[0]
+    }
+  }
+
+  async serchMomentById(ctx, next) {
+    const {momentId} = ctx.params;
+    console.log('momentId: ', momentId);
+
+    ctx.body = {
+      code: 0,
+      data: res[0]
     }
   }
 }

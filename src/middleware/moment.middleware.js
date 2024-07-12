@@ -2,9 +2,9 @@ const { MOMENT_IS_NOT_ALLOWD_EMPTY } = require("../config/error");
 
 async function checkContent(ctx, next) {
   // 得到用户id和动态内容
-  const { content } = ctx.request.body;
+  const { content, label } = ctx.request.body;
   const { id } = ctx.user;
-  const moment = {content, user_id: id};
+  const moment = {content, user_id: id, label};
   let judge = "";
   if(content) {
      judge = content.replace(" ", '');

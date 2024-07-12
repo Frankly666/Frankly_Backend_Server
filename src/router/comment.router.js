@@ -12,5 +12,5 @@ const commentRouter = new koaRouter({
 commentRouter.post("/publish", vertifyAuth, checkContent, insertComment);
 
 // 下面是查看评论的接口
-commentRouter.get("/search/:user_id")
+commentRouter.get("/search/:user_id", vertifyAuth)
 module.exports =  commentRouter
