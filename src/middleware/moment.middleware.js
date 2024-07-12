@@ -1,6 +1,6 @@
 const { MOMENT_IS_NOT_ALLOWD_EMPTY } = require("../config/error");
 
-async function checkMoment(ctx, next) {
+async function checkContent(ctx, next) {
   // 得到用户id和动态内容
   const { content } = ctx.request.body;
   const { id } = ctx.user;
@@ -18,5 +18,5 @@ async function checkMoment(ctx, next) {
 }
 
 module.exports = {
-  checkMoment
+  checkContent
 }
