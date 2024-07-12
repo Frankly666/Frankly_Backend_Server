@@ -65,8 +65,30 @@ class momentService {
       GROUP BY
         m.id;
     `
+
+    const statement1 = `
+      SELECT 
+        ml.moment_id,
+        JSON_ARRAYAGG(l.name) AS label_names 
+      FROM 
+        moment_label ml 
+      LEFT JOIN label l ON ml.label_id = l.id 
+      GROUP BY ml.moment_id
+      HAVING ml.moment_id = ?
+    ` 
+
     const res = await connection.execute(statement)
-    return res;
+    
+    let resArry = res[0]
+
+    for(let item of resArry){
+      let momentId = item.moment_id;
+      let labels = await connection.execute(statement1, [momentId]);
+      labels = labels[0][0];
+      item.labels = labels;      
+    }
+
+    return resArry;
   }
 
   async serchDetaiContent(momentId) {
@@ -93,13 +115,37 @@ class momentService {
       HAVING m.id = ?;
     `
 
+    const statement1 = `
+      SELECT 
+        ml.moment_id,
+        JSON_ARRAYAGG(l.name) AS label_names 
+      FROM 
+        moment_label ml 
+      LEFT JOIN label l ON ml.label_id = l.id 
+      GROUP BY ml.moment_id
+      HAVING ml.moment_id = ?
+    ` 
+
     const res = await connection.execute(statement, [momentId]);
-    console.log('res: ', res);
+    const resArry = res[0];
+
+    for(let item of resArry) {
+      let momentId = item.moment_id;
+      let labels = await connection.execute(statement1, [momentId]);
+      labels = labels[0][0];
+      item.labels = labels; 
+    }
+    console.log('resArry: ', resArry);
+    return resArry;
+  }
+
+  async deleteByMomentId(momentId) {
+    const statement = "DELETE FROM moment WHERE id = ?;"
+
+    const res = await connection.execute(statement, [momentId]);
 
     return res;
   }
-
-  
 }
 
 module.exports = new momentService();

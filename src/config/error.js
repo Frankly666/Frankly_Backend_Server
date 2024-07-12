@@ -5,6 +5,7 @@ const PASSWORD_IS_NOT_CORRECT = "password_is_not_correct";
 const NO_AUTHORITY = "no_aothority";
 const TOKEN_IS_WRONG = "token_is_wrong";
 const MOMENT_IS_NOT_ALLOWD_EMPTY = "moment_is_not_allowd_empty";
+const HAVE_NO_PRIVILEGES_TO_DELETE = "have_no_privileges_to_delete";
 
 module.exports = {
   NAME_OR_PASSWORD_IS_REQUIRED,
@@ -13,5 +14,6 @@ module.exports = {
   PASSWORD_IS_NOT_CORRECT,
   NO_AUTHORITY,
   TOKEN_IS_WRONG,
-  MOMENT_IS_NOT_ALLOWD_EMPTY
+  MOMENT_IS_NOT_ALLOWD_EMPTY,
+  HAVE_NO_PRIVILEGES_TO_DELETE
 }

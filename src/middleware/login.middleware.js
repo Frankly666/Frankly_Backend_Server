@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken")
 const {PUBLIC_KEY} = require("../config/key")
 
 // 验证传过来的数据
-async function vertifyLogin(ctx, next) {
+async function verifyLogin(ctx, next) {
   // 验证客户端传过来的数据
   const {name, password} = ctx.request.body;
 
@@ -35,7 +35,7 @@ async function vertifyLogin(ctx, next) {
 }
 
 // 验证用户是否拥有token或者判断用户的token是否过期
-async function vertifyAuth(ctx, next) {
+async function verifyAuth(ctx, next) {
   // 获取客户端传过来的token
   const authorization = ctx.headers.authorization;
   if(!authorization) {
@@ -60,6 +60,6 @@ async function vertifyAuth(ctx, next) {
 }
 
 module.exports = {
-  vertifyLogin,
-  vertifyAuth
+  verifyLogin,
+  verifyAuth
 }

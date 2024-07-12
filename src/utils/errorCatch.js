@@ -1,5 +1,5 @@
 const app  = require("../app");
-const {NAME_IS_ALREADY_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, USER_IS_NOT_EXISTS, PASSWORD_IS_NOT_CORRECT, NO_AUTHORITY, TOKEN_IS_WRONG, MOMENT_IS_NOT_ALLOWD_EMPTY} = require("../config/error")
+const {NAME_IS_ALREADY_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED, USER_IS_NOT_EXISTS, PASSWORD_IS_NOT_CORRECT, NO_AUTHORITY, TOKEN_IS_WRONG, MOMENT_IS_NOT_ALLOWD_EMPTY, HAVE_NO_PRIVILEGES_TO_DELETE} = require("../config/error")
 
 app.on('error', (error, ctx) => {
   let code = 0
@@ -33,6 +33,10 @@ app.on('error', (error, ctx) => {
     case MOMENT_IS_NOT_ALLOWD_EMPTY:
       code = -1006;
       message = "发表的动态内容不能为空！"
+      break;
+    case HAVE_NO_PRIVILEGES_TO_DELETE:
+      code = -1007;
+      message = "你没有操作的权限!";
       break;
   }
 
