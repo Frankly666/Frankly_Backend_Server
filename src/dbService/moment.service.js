@@ -135,7 +135,6 @@ class momentService {
       labels = labels[0][0];
       item.labels = labels; 
     }
-    console.log('resArry: ', resArry);
     return resArry;
   }
 

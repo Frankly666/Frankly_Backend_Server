@@ -6,7 +6,7 @@ const { UPLOAD_PATH } = require("../config/path");
 
 class fileController {
   async updateAvatar (ctx, next) {
-    const { filename, mimetype, size } = ctx.request.files;
+    const { filename, mimetype, size } = ctx.request.file;
     const {id} = ctx.user;
 
     const res = await insertAvatar({filename, mimetype, size, user_id: id}) 
