@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
 const { PRIVATE_KEY } = require("../config/key");
 const { TOKEN_IS_WRONG } = require("../config/error");
+const { findUserRole } = require("../dbService/user.service");
 
 class loginController {
-  login(ctx, next) {
+  async login(ctx, next) {
     // 获取用户信息
     const { id, name } = ctx.user;
 
@@ -13,7 +14,13 @@ class loginController {
         expiresIn: '7d', // 过期时间，例如7天
         algorithm: 'RS256' // 使用的算法
       });
-      ctx.body = {code: 0, data:{id, name, token}};
+
+      // 还需要去查询用户的权限信息
+       const res = await findUserRole(id);
+       console.log('res: ', res);
+
+
+      ctx.body = {code: 0, data:{token, user: res[0]}};
     } catch (error) {
       return ctx.app.emit("error", TOKEN_IS_WRONG, ctx)
     }

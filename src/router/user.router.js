@@ -10,5 +10,4 @@ const userRouter = new koaRouter({prefix: "/users"})
 userRouter.post("/", verifyUser, encryptPassword, insertUser)
 
 
-
 module.exports = userRouter
