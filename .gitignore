@@ -27,6 +27,7 @@ coverage
 *.sln
 *.sw?
 
-.key
-keys/
+*/.key
+keys/*
 
+uploads/*
