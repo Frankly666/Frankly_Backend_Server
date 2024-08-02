@@ -27,7 +27,6 @@ coverage
 *.sln
 *.sw?
 
-*/.key
-keys/*
+src/config/keys/*
 
 uploads/*
