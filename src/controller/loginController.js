@@ -19,7 +19,6 @@ class loginController {
       // 还需要去查询用户的权限信息, 并进行信息处理
       const  res = await findUserRole(id);
       const permission = mapPermission(res[0].role.permission)
-      console.log('permission: ', permission);
       res[0].role.permission = permission;
 
       ctx.body = {code: 0, data:{token, user: res[0]}};
