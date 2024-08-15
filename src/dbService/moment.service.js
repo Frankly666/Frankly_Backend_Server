@@ -44,28 +44,34 @@ class momentService {
   }
 
   async searchAllContent() {
+    // 查询动态以及动态评论
     const statement = `
       SELECT
         m.id AS moment_id,
         m.content AS content,
         m.user_id AS user_id,
+        u.name AS user_name,
         m.createAt AS createTime,
         JSON_ARRAYAGG(
-        JSON_OBJECT(
-          "id", c.id, 
-          "content", c.content, 
-          "moment_id", c.moment_id, 
-          "comment_id", c.comment_id, 
-          "user_id", c.user_id, 
-          "createTime", c.createAt
-        )) AS comments
-      FROM
+            JSON_OBJECT(
+                "id", c.id, 
+                "content", c.content, 
+                "moment_id", c.moment_id, 
+                "comment_id", c.comment_id, 
+                "user_id", c.user_id, 
+                "createTime", c.createAt
+            )
+        ) AS comments,
+        COUNT(c.id) AS commentCount 
+    FROM
         moment m
-      LEFT JOIN comment c ON m.id = c.moment_id
-      GROUP BY
+    LEFT JOIN comment c ON m.id = c.moment_id
+    LEFT JOIN user u on m.user_id = u.id
+    GROUP BY
         m.id;
     `;
 
+    // 查询每条动态的标签
     const statement1 = `
       SELECT 
         ml.moment_id,
@@ -77,6 +83,39 @@ class momentService {
       HAVING ml.moment_id = ?
     `;
 
+    // 查询动态的点赞数以及点赞者id
+    const statement2 = `
+      SELECT 
+        JSON_ARRAYAGG(uml.user_id) AS likeUserIdArr,
+        COUNT(uml.user_id) AS likeCount
+      FROM 
+        moment m
+      LEFT JOIN user_moment_like uml ON m.id = uml.moment_id 
+      GROUP BY m.id
+      HAVING m.id = ?
+    `;
+
+    // 查询动态的收藏数以及收藏者id
+    const statement3 = `
+      SELECT 
+        JSON_ARRAYAGG(umf.user_id) AS favorUserIdArr,
+        COUNT(umf.user_id) AS favorCount
+      FROM 
+        moment m
+      LEFT JOIN user_moment_favor umf ON m.id = umf.moment_id 
+      GROUP BY m.id
+      HAVING m.id = ?
+    `;
+
+    // 查询每条评论的用户名
+    const statement4 = `
+      SELECT
+        name
+      FROM 
+        user
+      WHERE user.id = ?
+    `;
+
     const res = await connection.execute(statement);
 
     let resArry = res[0];
@@ -85,11 +124,22 @@ class momentService {
       const avatar = `${
         SERVER_HOST + ":" + SERVE_PORT + "/file/avatar/" + item.user_id
       }`;
-      let momentId = item.moment_id;
-      let labels = await connection.execute(statement1, [momentId]);
-      labels = labels[0][0];
+      const momentId = item.moment_id;
+      const labels = await connection.execute(statement1, [momentId]);
+      const like = await connection.execute(statement2, [momentId]);
+      const favor = await connection.execute(statement3, [momentId]);
       item.userAvatar = avatar;
-      item.labels = labels;
+      item.labels = labels[0][0];
+      item.like = like[0][0];
+      item.favor = favor[0][0];
+
+      // 给每条评论增添用户名
+      const comments = item.comments;
+      for (let comment of comments) {
+        const userId = comment.user_id;
+        const commentUserName = await connection.execute(statement4, [userId]);
+        comment.user_name = commentUserName[0][0]?.name;
+      }
     }
 
     return resArry;
@@ -110,7 +160,8 @@ class momentService {
           "comment_id", c.comment_id, 
           "user_id", c.user_id, 
           "createTime", c.createAt
-        )) AS comments
+        )) AS comments,
+        COUNT(c.id) AS commentsCount
       FROM
         moment m
       LEFT JOIN comment c ON m.id = c.moment_id
