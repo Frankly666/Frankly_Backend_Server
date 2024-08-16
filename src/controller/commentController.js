@@ -1,4 +1,4 @@
-const { insert, deleteCommentById} = require("../dbService/comment.service");
+const { insert, deleteCommentById } = require("../dbService/comment.service");
 
 class commentCotroller {
   async insertComment(ctx, next) {
@@ -11,28 +11,28 @@ class commentCotroller {
       content,
       moment_id,
       comment_id,
-      user_id: id
-    }
+      user_id: id,
+    };
 
     const res = await insert(comment);
 
     ctx.body = {
       code: 0,
       message: "发表评论成功!",
-      res
-    }
+      res,
+    };
   }
 
   async deleteComment(ctx, next) {
     const { commentId } = ctx.request.params;
 
-    const res = await deleteCommentById(commentId)
+    const res = await deleteCommentById(commentId);
 
     ctx.body = {
       code: 0,
       message: "成功删除此条评论!",
-      data: res
-    }
+      data: res,
+    };
   }
 }
 

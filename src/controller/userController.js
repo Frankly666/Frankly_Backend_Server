@@ -1,6 +1,5 @@
 const { addUser } = require("../dbService/user.service");
 
-
 class userController {
   async insertUser(ctx, next) {
     // 获取客户端传来的用户信息
@@ -11,11 +10,10 @@ class userController {
 
     // 给前端展示结果
     ctx.body = {
-      message: '创建用户成功~',
-      data: res
-    }
+      message: "创建用户成功~",
+      data: res,
+    };
   }
 }
-
 
 module.exports = new userController();

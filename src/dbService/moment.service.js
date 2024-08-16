@@ -200,6 +200,30 @@ class momentService {
 
     return res;
   }
+
+  async deletLikeFavorDB(userId, momentId, match) {
+    console.log("match: ", match);
+    const statement =
+      match === "moment_like"
+        ? `DELETE FROM user_moment_like WHERE user_id = ? AND moment_id = ?;`
+        : `DELETE FROM user_moment_favor WHERE user_id = ? AND moment_id = ?;`;
+    const res = await connection.execute(statement, [userId, momentId]);
+
+    return res;
+  }
+
+  async addLikeFavorDB(userId, momentId, match) {
+    const statement =
+      match === "moment_like"
+        ? `INSERT INTO user_moment_like (user_id, moment_id) VALUES (?, ?);`
+        : `INSERT INTO user_moment_favor (user_id, moment_id)VALUES (?, ?)`;
+    try {
+      const res = await connection.execute(statement, [userId, momentId]);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
 
 module.exports = new momentService();

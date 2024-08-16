@@ -1,24 +1,23 @@
 const { connection } = require("../app/database");
 
-
 class userSevice {
   async addUser(user) {
-    const {name, password} = user;
+    const { name, password } = user;
 
-    const statemate = "INSERT INTO `user` (name, password) VALUES (?, ?);"
-    const [res] = await connection.execute(statemate,[name, password]);
-    return res
+    const statemate = "INSERT INTO `user` (name, password) VALUES (?, ?);";
+    const [res] = await connection.execute(statemate, [name, password]);
+    return res;
   }
 
   async findUserByName(name, ctx) {
-    const statement = "SELECT * FROM `user` WHERE `name` = ?;"
-  
-    const [res] = await connection.execute(statement,[name]);
+    const statement = "SELECT * FROM `user` WHERE `name` = ?;";
+
+    const [res] = await connection.execute(statement, [name]);
     return res;
   }
 
   async findUserRole(userId) {
-    const statement  = `
+    const statement = `
       SELECT 
         u.id userId,
         u.name username,
@@ -39,11 +38,10 @@ class userSevice {
       LEFT JOIN permissions p ON p.id = rp.permission_id
       GROUP BY u.id
       HAVING u.id = ?;
-    `
+    `;
     const [res] = await connection.execute(statement, [userId]);
     return res;
   }
 }
-
 
 module.exports = new userSevice();
