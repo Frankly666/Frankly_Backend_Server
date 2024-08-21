@@ -1,4 +1,8 @@
-const { insertAvatar, searchAvatar } = require("../dbService/file.service");
+const {
+  insertAvatar,
+  searchAvatar,
+  insertTemAvatar,
+} = require("../dbService/file.service");
 const fs = require("fs");
 
 const { SERVER_HOST, SERVE_PORT } = require("../config/serve");
@@ -31,6 +35,24 @@ class fileController {
     const avatar = fs.createReadStream(`${UPLOAD_PATH}/${filename}`);
     ctx.type = mimetype;
     ctx.body = avatar;
+  }
+
+  async storeTempAvatar(ctx, next) {
+    const { userRealName } = ctx.request.params;
+    const { filename, mimetype, size } = ctx.request.file;
+
+    const res = await insertTemAvatar({
+      filename,
+      mimetype,
+      size,
+      userRealName,
+    });
+
+    ctx.body = {
+      code: 0,
+      message: "暂时储存用户头像成功",
+      data: res,
+    };
   }
 }
 

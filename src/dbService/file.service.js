@@ -24,6 +24,20 @@ class fileService {
     const res = await connection.execute(statement, [userId]);
     return res[0].pop();
   }
+
+  async insertTemAvatar(avatarInfo) {
+    const { filename, mimetype, size, userRealName } = avatarInfo;
+    const statement = `INSERT INTO avatar_temp (filename, mimetype, size, userRealName) VALUES (?, ?, ?, ?);`;
+
+    const [result] = await connection.execute(statement, [
+      filename,
+      mimetype,
+      size,
+      userRealName,
+    ]);
+
+    return result;
+  }
 }
 
 module.exports = new fileService();

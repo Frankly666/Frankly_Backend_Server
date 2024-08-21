@@ -62,7 +62,7 @@ class momentService {
                 "createTime", c.createAt
             )
         ) AS comments,
-        COUNT(c.id) AS commentCount 
+        COUNT(c.id) AS commentsCount 
     FROM
         moment m
     LEFT JOIN comment c ON m.id = c.moment_id
@@ -202,7 +202,6 @@ class momentService {
   }
 
   async deletLikeFavorDB(userId, momentId, match) {
-    console.log("match: ", match);
     const statement =
       match === "moment_like"
         ? `DELETE FROM user_moment_like WHERE user_id = ? AND moment_id = ?;`
