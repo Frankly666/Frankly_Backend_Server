@@ -38,6 +38,15 @@ class fileService {
 
     return result;
   }
+
+  async deleteTemAvatarDB(userRealName) {
+    const statement0 = `SELECT filename FROM avatar_temp WHERE userRealName=?;`;
+    const res0 = await connection.execute(statement0, [userRealName]);
+    const filename = res0[0][0].filename;
+    const statement = `DELETE FROM avatar_temp WHERE  userRealName=?;`;
+    const res = await connection.execute(statement, [userRealName]);
+    return { res, filename };
+  }
 }
 
 module.exports = new fileService();

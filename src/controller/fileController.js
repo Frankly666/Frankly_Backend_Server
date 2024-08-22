@@ -2,11 +2,13 @@ const {
   insertAvatar,
   searchAvatar,
   insertTemAvatar,
+  deleteTemAvatarDB,
 } = require("../dbService/file.service");
 const fs = require("fs");
 
 const { SERVER_HOST, SERVE_PORT } = require("../config/serve");
-const { UPLOAD_PATH } = require("../config/path");
+const { UPLOAD_PATH, TEM_UPLOAD } = require("../config/path");
+const { deleteFileByName } = require("../utils/deleteTemAvatarFile");
 
 class fileController {
   async updateAvatar(ctx, next) {
@@ -52,6 +54,22 @@ class fileController {
       code: 0,
       message: "暂时储存用户头像成功",
       data: res,
+    };
+  }
+
+  async deleteTemAvatar(ctx, next) {
+    const { userRealName } = ctx.request.params;
+    const { res, filename } = await deleteTemAvatarDB(userRealName);
+
+    // 删除暂存的文件
+    try {
+      deleteFileByName(TEM_UPLOAD, filename);
+    } catch (err) {
+      console.log("err: ", err);
+    }
+    ctx.body = {
+      data: res,
+      code: 0,
     };
   }
 }

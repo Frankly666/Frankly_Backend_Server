@@ -5,6 +5,7 @@ const {
   updateAvatar,
   getUserAvatar,
   storeTempAvatar,
+  deleteTemAvatar,
 } = require("../controller/fileController");
 const {
   handleAvatar,
@@ -24,6 +25,9 @@ avatarRouter.post(
   handleTemAvatar,
   storeTempAvatar
 );
+
+// 删除用户的暂存头像
+avatarRouter.get("/avatar/init/delete/:userRealName", deleteTemAvatar);
 
 // 查看头像的接口
 avatarRouter.get("/avatar/:userId", getUserAvatar);
