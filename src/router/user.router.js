@@ -7,7 +7,7 @@ const userRouter = new koaRouter({prefix: "/users"})
 
 
 // 用户注册接口
-userRouter.post("/", verifyUser, encryptPassword, insertUser)
+userRouter.post("/enroll", verifyUser, encryptPassword, insertUser)
 
 
 module.exports = userRouter

@@ -47,6 +47,12 @@ class fileService {
     const res = await connection.execute(statement, [userRealName]);
     return { res, filename };
   }
+
+  async getIsInitAvatar(userId) {
+    const statement = `SELECT avatarId FROM user WHERE id=?;`
+    const res = connection.execute(statement, [userId]);
+    return res;
+  }
 }
 
 module.exports = new fileService();

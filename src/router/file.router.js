@@ -10,6 +10,7 @@ const {
 const {
   handleAvatar,
   handleTemAvatar,
+  checkIsInitAvatar,
 } = require("../middleware/file.middleware");
 
 const avatarRouter = new koaRouter({
@@ -18,6 +19,12 @@ const avatarRouter = new koaRouter({
 
 // 更新头像
 avatarRouter.post("/avatar", verifyAuth, handleAvatar, updateAvatar);
+avatarRouter.post(
+  "/avatar/initReal/:id",
+  handleAvatar,
+  checkIsInitAvatar,
+  updateAvatar
+);
 
 // 用户注册时就上传头像
 avatarRouter.post(

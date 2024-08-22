@@ -13,7 +13,7 @@ const { deleteFileByName } = require("../utils/deleteTemAvatarFile");
 class fileController {
   async updateAvatar(ctx, next) {
     const { filename, mimetype, size } = ctx.request.file;
-    const { id } = ctx.user;
+    const { id } = ctx.user || ctx.request.params;
 
     const res = await insertAvatar({ filename, mimetype, size, user_id: id });
 

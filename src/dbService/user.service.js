@@ -2,10 +2,21 @@ const { connection } = require("../app/database");
 
 class userSevice {
   async addUser(user) {
-    const { name, password } = user;
+    const { name, password, realName, gender, phone, email, hobby, avatarId } =
+      user;
 
-    const statemate = "INSERT INTO `user` (name, password) VALUES (?, ?);";
-    const [res] = await connection.execute(statemate, [name, password]);
+    const statemate =
+      "INSERT INTO `user` (name, password, realName, gender, phone, email, hobby, avatarId) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    const [res] = await connection.execute(statemate, [
+      name,
+      password,
+      realName,
+      gender,
+      phone,
+      email,
+      hobby,
+      avatarId,
+    ]);
     return res;
   }
 
