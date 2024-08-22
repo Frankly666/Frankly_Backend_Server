@@ -19,9 +19,12 @@ class fileService {
   }
 
   async searchAvatar(userId) {
-    const statement = "SELECT * FROM avatar WHERE user_id = ?;";
+    const statement = "SELECT * FROM avatar WHERE id = ?;";
+    const statement1 = "SELECT avatarId FROM user WHERE id = ?;";
+    const res1 = await connection.execute(statement1, [userId]);
+    const avatarId = res1[0][0].avatarId;
 
-    const res = await connection.execute(statement, [userId]);
+    const res = await connection.execute(statement, [avatarId]);
     return res[0].pop();
   }
 
@@ -49,7 +52,7 @@ class fileService {
   }
 
   async getIsInitAvatar(userId) {
-    const statement = `SELECT avatarId FROM user WHERE id=?;`
+    const statement = `SELECT avatarId FROM user WHERE id=?;`;
     const res = connection.execute(statement, [userId]);
     return res;
   }
