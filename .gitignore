@@ -30,3 +30,5 @@ coverage
 src/config/keys/*
 
 uploads/*
+
+tem_uploads/*
