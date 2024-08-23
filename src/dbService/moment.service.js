@@ -47,28 +47,32 @@ class momentService {
     // 查询动态以及动态评论
     const statement = `
       SELECT
-        m.id AS moment_id,
-        m.content AS content,
-        m.user_id AS user_id,
-        u.name AS user_name,
-        m.createAt AS createTime,
-        JSON_ARRAYAGG(
-            JSON_OBJECT(
-                "id", c.id, 
-                "content", c.content, 
-                "moment_id", c.moment_id, 
-                "comment_id", c.comment_id, 
-                "user_id", c.user_id, 
-                "createTime", c.createAt
-            )
-        ) AS comments,
-        COUNT(c.id) AS commentsCount 
-    FROM
-        moment m
-    LEFT JOIN comment c ON m.id = c.moment_id
-    LEFT JOIN user u on m.user_id = u.id
-    GROUP BY
-        m.id;
+          m.id AS moment_id,
+          m.content AS content,
+          m.user_id AS user_id,
+          u.name AS user_name,
+          MAX(m.createAt) AS createTime,
+          JSON_ARRAYAGG(
+              JSON_OBJECT(
+                  "id", c.id, 
+                  "content", c.content, 
+                  "moment_id", c.moment_id, 
+                  "comment_id", c.comment_id, 
+                  "user_id", c.user_id, 
+                  "createTime", c.createAt
+              )
+          ) AS comments,
+          COUNT(c.id) AS commentsCount 
+      FROM
+          moment m
+      LEFT JOIN comment c ON m.id = c.moment_id
+      LEFT JOIN user u ON m.user_id = u.id
+      GROUP BY
+          m.id,
+          m.content,
+          m.user_id
+      ORDER BY
+          MAX(m.createAt) DESC;
     `;
 
     // 查询每条动态的标签
