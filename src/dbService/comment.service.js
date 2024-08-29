@@ -48,6 +48,18 @@ class commentService {
 
     return res;
   }
+
+  async addCommetnLikeDB(userId, momentId, commentId) {
+    const statement = `INSERT INTO user_comment_like (user_id, moment_id, comment_id) VALUES (?, ?, ?);`;
+    const res = connection.execute(statement, [userId, momentId, commentId]);
+    return res;
+  }
+
+  async deleteCommetnLikeDB(userId, momentId, commentId) {
+    const statement = `DELETE FROM user_comment_like WHERE user_id = ? AND moment_id = ? AND comment_id = ?;`;
+    const res = connection.execute(statement, [userId, momentId, commentId]);
+    return res;
+  }
 }
 
 module.exports = new commentService();

@@ -1,4 +1,9 @@
-const { insert, deleteCommentById } = require("../dbService/comment.service");
+const {
+  insert,
+  deleteCommentById,
+  addCommetnLikeDB,
+  deleteCommetnLikeDB,
+} = require("../dbService/comment.service");
 
 class commentCotroller {
   async insertComment(ctx, next) {
@@ -33,6 +38,26 @@ class commentCotroller {
     ctx.body = {
       code: 0,
       message: "成功删除此条评论!",
+      data: res,
+    };
+  }
+
+  async addCommentLike(ctx, next) {
+    const { userId, momentId, commentId } = ctx.query;
+    const res = await addCommetnLikeDB(userId, momentId, commentId);
+    ctx.body = {
+      code: 0,
+      message: `成功添加对${commentId}评论的点赞`,
+      data: res,
+    };
+  }
+
+  async deleteCommentLike(ctx, next) {
+    const { userId, momentId, commentId } = ctx.query;
+    const res = await deleteCommetnLikeDB(userId, momentId, commentId);
+    ctx.body = {
+      code: 0,
+      message: `成功删除对${commentId}评论的点赞`,
       data: res,
     };
   }

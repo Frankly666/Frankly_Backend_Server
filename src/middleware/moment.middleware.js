@@ -22,7 +22,7 @@ async function checkContent(ctx, next) {
 
 async function checkUserIdIsSame(ctx, next) {
   const { id } = ctx.user;
-  const { userId, momentId } = ctx.query;
+  const { userId } = ctx.query;
   if (userId != id)
     return ctx.app.emit("error", HAVE_NO_PRIVILEGES_TO_DELETE, ctx);
 

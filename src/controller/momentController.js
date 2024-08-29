@@ -57,7 +57,7 @@ class momentController {
 
     ctx.body = {
       code: 0,
-      message: "成功删除!",
+      message: `成功删除对${momentId}动态的收藏或点赞`,
       data: res,
     };
   }
@@ -71,16 +71,15 @@ class momentController {
     if (res) {
       ctx.body = {
         code: 0,
-        message: "成功添加!",
+        message: `成功添加对${momentId}动态的收藏或点赞`,
         data: res,
       };
-    }else {
+    } else {
       ctx.body = {
         code: 0,
         message: "数据操作有错!",
       };
     }
-
   }
 }
 
