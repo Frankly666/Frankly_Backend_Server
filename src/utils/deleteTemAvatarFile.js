@@ -30,6 +30,3 @@ function deleteFileByName(directoryPath, fileName) {
 
 module.exports = { deleteFileByName };
 
-// 使用示例
-// 假设我们想删除的文件夹路径是 './uploads'，文件名是 'example.txt'
-// deleteFileByName("./uploads", "example.txt");

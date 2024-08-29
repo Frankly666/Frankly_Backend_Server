@@ -121,6 +121,29 @@ class momentService {
       WHERE user.id = ?
     `;
 
+    // 查询每条评论的点赞的用户
+    const statement5 = `
+    SELECT 
+      JSON_ARRAYAGG(ucf.user_id) AS likeUserIdArr,
+      COUNT(ucf.user_id) AS likeCount
+    FROM 
+      comment c
+    LEFT JOIN user_comment_like ucf ON c.id = ucf.comment_id
+    GROUP BY c.id
+    HAVING c.id = ?
+    `;
+
+    // 查询每条评论的子评论
+    const statement6 = `
+    SELECT 
+      JSON_ARRAYAGG(c2.id) AS likeCommentIdArr,
+      COUNT(c1.id) AS likeCommentCount
+    FROM comment AS c1
+    JOIN comment AS c2 ON c1.id = c2.comment_id
+    GROUP BY c1.id
+    HAVING c1.id = ?;
+    `;
+
     const res = await connection.execute(statement);
 
     let resArry = res[0];
@@ -138,12 +161,22 @@ class momentService {
       item.like = like[0][0];
       item.favor = favor[0][0];
 
-      // 给每条评论增添用户名
+      // 给每条评论增添用户名以及添加每条评论的点赞信息
       const comments = item.comments;
       for (let comment of comments) {
         const userId = comment.user_id;
+        const commentId = comment.id;
+
+        const avatar = userId
+          ? `${SERVER_HOST + ":" + SERVE_PORT + "/file/avatar/" + userId}`
+          : null;
+        const commentLike = await connection.execute(statement5, [commentId]);
         const commentUserName = await connection.execute(statement4, [userId]);
+        const commentSons = await connection.execute(statement6, [commentId]);
         comment.user_name = commentUserName[0][0]?.name;
+        comment.commentLike = commentLike[0][0];
+        comment.userAvatar = avatar;
+        comment.commentSons = commentSons[0][0];
       }
     }
 
