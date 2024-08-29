@@ -2,16 +2,18 @@ const { connection } = require("../app/database");
 
 class commentService {
   async insert(comment) {
-    const { content, user_id, moment_id, comment_id } = comment;
+    const { content, user_id, moment_id, comment_id, commentToCommentId } =
+      comment;
 
     const statement =
-      "INSERT INTO `comment` (content, moment_id, user_id, comment_id)  VALUES (?, ?, ?, ?);";
+      "INSERT INTO `comment` (content, moment_id, user_id, comment_id, commentToCommentId)  VALUES (?, ?, ?, ?, ?);";
 
     const res = connection.execute(statement, [
       content,
       moment_id,
       user_id,
       comment_id,
+      commentToCommentId,
     ]);
 
     return res;

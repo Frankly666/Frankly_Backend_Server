@@ -57,7 +57,8 @@ class momentService {
                   "id", c.id, 
                   "content", c.content, 
                   "moment_id", c.moment_id, 
-                  "comment_id", c.comment_id, 
+                  "comment_id", c.comment_id,
+                  "commentToCommentId", c. commentToCommentId,
                   "user_id", c.user_id, 
                   "createTime", c.createAt
               )
