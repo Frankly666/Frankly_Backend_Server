@@ -43,7 +43,7 @@ class commentCotroller {
   }
 
   async addCommentLike(ctx, next) {
-    const { userId, momentId, commentId } = ctx.query;
+    const { userId, momentId, commentId = "" } = ctx.query;
     const res = await addCommetnLikeDB(userId, momentId, commentId);
     ctx.body = {
       code: 0,
@@ -53,7 +53,7 @@ class commentCotroller {
   }
 
   async deleteCommentLike(ctx, next) {
-    const { userId, momentId, commentId } = ctx.query;
+    const { userId, momentId, commentId = "" } = ctx.query;
     const res = await deleteCommetnLikeDB(userId, momentId, commentId);
     ctx.body = {
       code: 0,

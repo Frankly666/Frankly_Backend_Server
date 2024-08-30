@@ -136,12 +136,19 @@ class momentService {
     // 查询每条评论的子评论
     const statement6 = `
     SELECT 
-      JSON_ARRAYAGG(c2.id) AS likeCommentIdArr,
-      COUNT(c1.id) AS likeCommentCount
+      JSON_ARRAYAGG(c2.id) AS commentIdArr,
+      COUNT(c1.id) AS commentCount
     FROM comment AS c1
     JOIN comment AS c2 ON c1.id = c2.comment_id
     GROUP BY c1.id
     HAVING c1.id = ?;
+    `;
+
+    const statement7 = `
+    SELECT u.name commentToCommentUserName
+      FROM comment c
+      LEFT JOIN user u ON c.user_id = u.id
+      WHERE c.id=?;
     `;
 
     const res = await connection.execute(statement);
@@ -166,6 +173,7 @@ class momentService {
       for (let comment of comments) {
         const userId = comment.user_id;
         const commentId = comment.id;
+        const commentToCommentId = comment.commentToCommentId;
 
         const avatar = userId
           ? `${SERVER_HOST + ":" + SERVE_PORT + "/file/avatar/" + userId}`
@@ -173,6 +181,12 @@ class momentService {
         const commentLike = await connection.execute(statement5, [commentId]);
         const commentUserName = await connection.execute(statement4, [userId]);
         const commentSons = await connection.execute(statement6, [commentId]);
+        const commentToCommentUserName = await connection.execute(statement7, [
+          commentToCommentId,
+        ]);
+
+        comment.commentToCommentUserName =
+          commentToCommentUserName[0][0]?.commentToCommentUserName;
         comment.user_name = commentUserName[0][0]?.name;
         comment.commentLike = commentLike[0][0];
         comment.userAvatar = avatar;

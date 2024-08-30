@@ -1,6 +1,9 @@
 const koaRouter = require("@koa/router");
 const { verifyAuth } = require("../middleware/login.middleware");
-const { checkContent, checkUserIdIsSame } = require("../middleware/moment.middleware");
+const {
+  checkContent,
+  checkUserIdIsSame,
+} = require("../middleware/moment.middleware");
 const {
   insertComment,
   deleteComment,
@@ -28,9 +31,19 @@ commentRouter.delete(
 );
 
 // 评论点赞接口
-commentRouter.get("/add/comment_like", verifyAuth, checkUserIdIsSame, addCommentLike);
+commentRouter.get(
+  "/add/comment_like",
+  verifyAuth,
+  checkUserIdIsSame,
+  addCommentLike
+);
 
 // 评论点赞取消的接口
-commentRouter.get("/delete/comment_like", verifyAuth, checkUserIdIsSame, deleteCommentLike);
+commentRouter.get(
+  "/delete/comment_like",
+  verifyAuth,
+  checkUserIdIsSame,
+  deleteCommentLike
+);
 
 module.exports = commentRouter;
