@@ -58,7 +58,7 @@ class momentService {
                   "content", c.content, 
                   "moment_id", c.moment_id, 
                   "comment_id", c.comment_id,
-                  "commentToCommentId", c. commentToCommentId,
+                  "commentToCommentId", c.commentToCommentId,
                   "user_id", c.user_id, 
                   "createTime", c.createAt
               )
@@ -135,17 +135,17 @@ class momentService {
 
     // 查询每条评论的子评论
     const statement6 = `
-    SELECT 
-      JSON_ARRAYAGG(c2.id) AS commentIdArr,
-      COUNT(c1.id) AS commentCount
-    FROM comment AS c1
-    JOIN comment AS c2 ON c1.id = c2.comment_id
-    GROUP BY c1.id
-    HAVING c1.id = ?;
+      SELECT 
+        JSON_ARRAYAGG(c2.id) AS commentIdArr,
+        COUNT(c1.id) AS commentCount
+      FROM comment AS c1
+      JOIN comment AS c2 ON c1.id = c2.comment_id
+      GROUP BY c1.id
+      HAVING c1.id = ?;
     `;
 
     const statement7 = `
-    SELECT u.name commentToCommentUserName
+      SELECT u.name commentToCommentUserName
       FROM comment c
       LEFT JOIN user u ON c.user_id = u.id
       WHERE c.id=?;
