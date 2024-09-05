@@ -258,9 +258,12 @@ class momentService {
       match === "moment_like"
         ? `DELETE FROM user_moment_like WHERE user_id = ? AND moment_id = ?;`
         : `DELETE FROM user_moment_favor WHERE user_id = ? AND moment_id = ?;`;
-    const res = await connection.execute(statement, [userId, momentId]);
-
-    return res;
+    try {
+      const res = await connection.execute(statement, [userId, momentId]);
+      return res;
+    } catch (err) {
+      console.log("err: ", err);
+    }
   }
 
   async addLikeFavorDB(userId, momentId, match) {

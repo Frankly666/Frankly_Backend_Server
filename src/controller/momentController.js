@@ -50,7 +50,7 @@ class momentController {
 
   async deleteLikeFavor(ctx, next) {
     const url = ctx.request.url;
-    const regex = /moment\/delete\/([^\s?]+)/;
+    const regex = /moment\/drop\/([^\s?]+)/;
     const match = url.match(regex)[1];
     const { userId, momentId } = ctx.query;
     const res = await deletLikeFavorDB(userId, momentId, match);

@@ -23,7 +23,7 @@ commentRouter.post("/publish", verifyAuth, checkContent, insertComment);
 commentRouter.get("/search/:user_id", verifyAuth);
 
 // 删除评论的信息
-commentRouter.delete(
+commentRouter.get(
   "/delete/:commentId",
   verifyAuth,
   verifyPermission,
@@ -40,7 +40,7 @@ commentRouter.get(
 
 // 评论点赞取消的接口
 commentRouter.get(
-  "/delete/comment_like",
+  "/drop/comment_like",
   verifyAuth,
   checkUserIdIsSame,
   deleteCommentLike

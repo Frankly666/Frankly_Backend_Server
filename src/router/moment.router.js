@@ -28,7 +28,7 @@ momentRouter.get("/search/list", verifyAuth, searchAllMoment);
 momentRouter.get("/search/:momentId", verifyAuth, serchMomentById);
 
 // 删除动态信息操作
-momentRouter.delete(
+momentRouter.get(
   "/delete/:momentId",
   verifyAuth,
   verifyPermission,
@@ -37,13 +37,13 @@ momentRouter.delete(
 
 // 给某条评论删除点赞或收藏, 先判断是否登录, 再判断登录用户的id是否与查询的id是否一致
 momentRouter.get(
-  "/delete/moment_like",
+  "/drop/moment_like",
   verifyAuth,
   checkUserIdIsSame,
   deleteLikeFavor
 );
 momentRouter.get(
-  "/delete/moment_favor",
+  "/drop/moment_favor",
   verifyAuth,
   checkUserIdIsSame,
   deleteLikeFavor

@@ -23,7 +23,7 @@ const app = new koa();
 // );
 
 app.use(async (ctx, next) => {
-  ctx.set("Access-Control-Allow-Origin", "*"); // 或者指定 'http://localhost:3000'
+  ctx.set("Access-Control-Allow-Origin", " http://localhost:3000");
   ctx.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   ctx.set(
     "Access-Control-Allow-Headers",
