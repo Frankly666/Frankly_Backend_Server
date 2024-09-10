@@ -28,29 +28,6 @@ class fileService {
     return res[0].pop();
   }
 
-  async insertTemAvatar(avatarInfo) {
-    const { filename, mimetype, size, userRealName } = avatarInfo;
-    const statement = `INSERT INTO avatar_temp (filename, mimetype, size, userRealName) VALUES (?, ?, ?, ?);`;
-
-    const [result] = await connection.execute(statement, [
-      filename,
-      mimetype,
-      size,
-      userRealName,
-    ]);
-
-    return result;
-  }
-
-  async deleteTemAvatarDB(userRealName) {
-    const statement0 = `SELECT filename FROM avatar_temp WHERE userRealName=?;`;
-    const res0 = await connection.execute(statement0, [userRealName]);
-    const filename = res0[0][0].filename;
-    const statement = `DELETE FROM avatar_temp WHERE  userRealName=?;`;
-    const res = await connection.execute(statement, [userRealName]);
-    return { res, filename };
-  }
-
   async getIsInitAvatar(userId) {
     const statement = `SELECT avatarId FROM user WHERE id=?;`;
     const res = connection.execute(statement, [userId]);

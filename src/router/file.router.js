@@ -26,14 +26,13 @@ avatarRouter.post(
   updateAvatar
 );
 
-// 用户注册时就上传头像
+// 暂存头像
 avatarRouter.post(
-  "/avatar/init/:userRealName",
+  "/avatar/init/",
   handleTemAvatar,
   storeTempAvatar
 );
-// 删除用户的暂存头像
-avatarRouter.get("/avatar/init/delete/:userRealName", deleteTemAvatar);
+
 
 // 查看头像的接口
 avatarRouter.get("/avatar/:userId", getUserAvatar);

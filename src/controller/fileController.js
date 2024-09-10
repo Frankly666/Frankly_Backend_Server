@@ -40,36 +40,17 @@ class fileController {
   }
 
   async storeTempAvatar(ctx, next) {
-    const { userRealName } = ctx.request.params;
-    const { filename, mimetype, size } = ctx.request.file;
+    const { filename } = ctx.request.file;
 
-    const res = await insertTemAvatar({
-      filename,
-      mimetype,
-      size,
-      userRealName,
-    });
-
-    ctx.body = {
-      code: 0,
-      message: "暂时储存用户头像成功",
-      data: res,
-    };
-  }
-
-  async deleteTemAvatar(ctx, next) {
-    const { userRealName } = ctx.request.params;
-    const { res, filename } = await deleteTemAvatarDB(userRealName);
-
-    // 删除暂存的文件
     try {
       deleteFileByName(TEM_UPLOAD, filename);
     } catch (err) {
       console.log("err: ", err);
     }
+
     ctx.body = {
-      data: res,
       code: 0,
+      message: "成功",
     };
   }
 }
