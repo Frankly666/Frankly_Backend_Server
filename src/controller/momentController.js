@@ -28,7 +28,8 @@ class momentController {
   }
 
   async serchMomentById(ctx, next) {
-    const { momentId } = ctx.params;
+    const { momentId } = ctx.request.params;
+    console.log("momentId: ", momentId);
     const res = await serchDetaiContent(momentId);
     ctx.body = {
       code: 0,

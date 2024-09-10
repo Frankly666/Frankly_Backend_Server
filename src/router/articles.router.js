@@ -5,6 +5,7 @@ const {
   uploadeCover,
   getCover,
   storeTemCover,
+  insertLabels,
 } = require("../controller/articleController");
 const {
   handleArticleCover,
@@ -25,7 +26,6 @@ articleRouter.post(
   handleArticleCover,
   uploadeCover
 );
-
 // 文章封面暂存
 articleRouter.post(
   "/temCover",
@@ -34,6 +34,8 @@ articleRouter.post(
   storeTemCover
 );
 
+// 文章标签上传
+articleRouter.post("/label/:articleId", verifyAuth, insertLabels);
 
 // 查看获取封面
 articleRouter.get("/getCover/:articleId", getCover);

@@ -3,18 +3,20 @@ const {
   insert,
   uploadCoverDB,
   getCoverDB,
+  insertLabelDB,
 } = require("../dbService/article.service");
 const fs = require("fs");
 const { deleteFileByName } = require("../utils/deleteTemAvatarFile");
 
 class articleController {
   async insertArticle(ctx, next) {
-    const { title, content } = ctx.request.body;
+    const { title, content, category } = ctx.request.body;
     const { id } = ctx.user;
     const article = {
       id,
       title,
       content,
+      category,
     };
 
     const res = await insert(article);
@@ -48,7 +50,7 @@ class articleController {
     }
     ctx.body = {
       code: 0,
-      message: "成功!"
+      message: "成功!",
     };
   }
 
@@ -62,6 +64,19 @@ class articleController {
 
     ctx.type = mimetype;
     ctx.body = cover;
+  }
+
+  async insertLabels(ctx, next) {
+    const { articleId } = ctx.request.params;
+    const { label } = ctx.request.body;
+
+    const res = await insertLabelDB(label, articleId);
+
+    ctx.body = {
+      code: 0,
+      message: "成功添加标签!",
+      data: res,
+    };
   }
 }
 
