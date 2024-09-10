@@ -29,6 +29,7 @@ coverage
 
 src/config/keys/*
 
-uploads/*
+uploads
 
-tem_uploads/*
+tem_uploads
+articleCovers

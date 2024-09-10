@@ -32,7 +32,6 @@ avatarRouter.post(
   handleTemAvatar,
   storeTempAvatar
 );
-
 // 删除用户的暂存头像
 avatarRouter.get("/avatar/init/delete/:userRealName", deleteTemAvatar);
 
