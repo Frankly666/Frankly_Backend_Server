@@ -1,9 +1,10 @@
-const { TEM_UPLOAD } = require("../config/path");
+const { TEM_UPLOAD, ARTICLE_COVER } = require("../config/path");
 const {
   insert,
   uploadCoverDB,
   getCoverDB,
   insertLabelDB,
+  getArticleListDB,
 } = require("../dbService/article.service");
 const fs = require("fs");
 const { deleteFileByName } = require("../utils/deleteTemAvatarFile");
@@ -75,6 +76,16 @@ class articleController {
     ctx.body = {
       code: 0,
       message: "成功添加标签!",
+      data: res,
+    };
+  }
+
+  async getArticleList(ctx, next) {
+    const res = await getArticleListDB();
+
+    ctx.body = {
+      code: 0,
+      message: "成功获取",
       data: res,
     };
   }
