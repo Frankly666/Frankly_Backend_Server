@@ -5,6 +5,7 @@ const {
   getCoverDB,
   insertLabelDB,
   getArticleListDB,
+  getArticleDetailDB,
 } = require("../dbService/article.service");
 const fs = require("fs");
 const { deleteFileByName } = require("../utils/deleteTemAvatarFile");
@@ -86,6 +87,17 @@ class articleController {
     ctx.body = {
       code: 0,
       message: "成功获取",
+      data: res,
+    };
+  }
+
+  async getArticleDetail(ctx, next) {
+    const { articleId } = ctx.request.params;
+    const res = await getArticleDetailDB(articleId);
+
+    ctx.body = {
+      code: 0,
+      message: "查询成功!",
       data: res,
     };
   }

@@ -7,6 +7,7 @@ const {
   storeTemCover,
   insertLabels,
   getArticleList,
+  getArticleDetail,
 } = require("../controller/articleController");
 const {
   handleArticleCover,
@@ -20,7 +21,9 @@ const articleRouter = new koaRouter({
 // 文章发布
 articleRouter.post("/publish", verifyAuth, insertArticle);
 // 文章列表查询
-articleRouter.get("/getArticleList", verifyAuth, getArticleList)
+articleRouter.get("/getArticleList", verifyAuth, getArticleList);
+// 文章详情查询
+articleRouter.get("/getArticle/:articleId", verifyAuth, getArticleDetail);
 
 // 文章封面上传
 articleRouter.post(
